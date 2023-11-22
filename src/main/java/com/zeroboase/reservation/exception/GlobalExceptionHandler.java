@@ -1,11 +1,13 @@
 package com.zeroboase.reservation.exception;
 
+import static com.zeroboase.reservation.exception.ErrorCode.ACCESS_DENIED;
 import static com.zeroboase.reservation.exception.ErrorCode.INTERNAL_ERROR;
 import static com.zeroboase.reservation.exception.ErrorCode.VALIDATION_FAIL;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,9 +30,17 @@ public class GlobalExceptionHandler {
             e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDto> handleAccessDeniedException(
+        AccessDeniedException e) {
+        log.error("AccessDeniedException is occurred.", e);
+        return getErrorResponseResponseEntity(ACCESS_DENIED);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
         log.error("Exception is occurred.", e);
+
         return getErrorResponseResponseEntity(INTERNAL_ERROR);
     }
 

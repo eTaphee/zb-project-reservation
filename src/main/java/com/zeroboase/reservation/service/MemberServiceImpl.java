@@ -2,7 +2,6 @@ package com.zeroboase.reservation.service;
 
 import static com.zeroboase.reservation.exception.ErrorCode.AUTHENTICATE_FAIL;
 import static com.zeroboase.reservation.exception.ErrorCode.USERNAME_ALREADY_EXISTS;
-import static com.zeroboase.reservation.exception.ErrorCode.USERNAME_NOT_FOUND;
 
 import com.zeroboase.reservation.domain.Member;
 import com.zeroboase.reservation.dto.MemberDto;
@@ -30,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
-            .orElseThrow(() -> new ReservationException(USERNAME_NOT_FOUND));
+            .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
 
     /**

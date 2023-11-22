@@ -1,10 +1,15 @@
 package com.zeroboase.reservation.configuration.security;
 
+import static com.zeroboase.reservation.exception.ErrorCode.JWT_ERROR;
+import static com.zeroboase.reservation.exception.ErrorCode.TOKEN_EXPIRED;
+
 import com.zeroboase.reservation.dto.TokenDto;
+import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.service.MemberService;
 import com.zeroboase.reservation.type.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
@@ -105,7 +110,9 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            throw new ReservationException(TOKEN_EXPIRED);
+        } catch (JwtException e) {
+            throw new ReservationException(JWT_ERROR);
         }
     }
 }
