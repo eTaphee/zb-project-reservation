@@ -1,7 +1,11 @@
 package com.zeroboase.reservation.service;
 
+import static com.zeroboase.reservation.exception.ErrorCode.DELETE_STORE_FORBIDDEN;
+import static com.zeroboase.reservation.exception.ErrorCode.READ_STORE_FORBIDDEN;
 import static com.zeroboase.reservation.exception.ErrorCode.STORE_NOT_FOUND;
+import static com.zeroboase.reservation.exception.ErrorCode.UPDATE_STORE_FORBIDDEN;
 
+import com.zeroboase.reservation.domain.Member;
 import com.zeroboase.reservation.domain.Store;
 import com.zeroboase.reservation.dto.StoreDto;
 import com.zeroboase.reservation.dto.request.CreateStoreRequestDto;
@@ -10,6 +14,7 @@ import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.mapper.StoreMapper;
 import com.zeroboase.reservation.repository.StoreRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 파트너 상점 서비스
  */
-@Service
+@Service(value = "partnerStoreService")
 @RequiredArgsConstructor
 public class PartnerStoreServiceImpl implements PartnerStoreService {
 
@@ -62,8 +67,8 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<StoreDto> readStoreList() {
-        return storeRepository.findAllDtoBy();
+    public List<StoreDto> readStoreList(Member member) {
+        return storeRepository.findAllDtoByPartnerId(member.getId());
     }
 
     /**
@@ -94,5 +99,63 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
     @Override
     public void deleteStore(Long id) {
         storeRepository.deleteById(id);
+    }
+
+    /**
+     * 매장을 등록한 파트너인지 확인
+     *
+     * @param id     매장 아이디
+     * @param member 로그인 사용자
+     * @return 등록한 파트너이면 true, 아니면 false
+     */
+    private boolean checkPermission(Long id, Member member) {
+        String partnerUsername = storeRepository.findPartnerUsernameById(id)
+            .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
+        return Objects.equals(member.getUsername(), partnerUsername);
+    }
+
+    /**
+     * 매장 읽기 권한 확인
+     *
+     * @param id     매장 아이디
+     * @param member 로그인 사용자
+     * @return true 또는 false
+     */
+    @Override
+    public boolean checkAccessReadStore(Long id, Member member) {
+        if (!checkPermission(id, member)) {
+            throw new ReservationException(READ_STORE_FORBIDDEN);
+        }
+        return true;
+    }
+
+    /**
+     * 매장 수정 권한 확인
+     *
+     * @param id     매장 아이디
+     * @param member 로그인 사용자
+     * @return true 또는 false
+     */
+    @Override
+    public boolean checkAccessUpdateStore(Long id, Member member) {
+        if (checkPermission(id, member)) {
+            throw new ReservationException(UPDATE_STORE_FORBIDDEN);
+        }
+        return true;
+    }
+
+    /**
+     * 매장 삭제 권한 확인
+     *
+     * @param id     매장 아이디
+     * @param member 로그인 사용자
+     * @return true 또는 false
+     */
+    @Override
+    public boolean checkAccessDeleteStore(Long id, Member member) {
+        if (checkPermission(id, member)) {
+            throw new ReservationException(DELETE_STORE_FORBIDDEN);
+        }
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.zeroboase.reservation.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -68,7 +69,7 @@ public class Store extends BaseEntity {
     /**
      * 매장 소유 파트너
      */
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @CreatedBy
     private Member partner;
 

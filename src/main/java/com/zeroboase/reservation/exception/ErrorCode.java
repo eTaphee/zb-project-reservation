@@ -21,7 +21,10 @@ public enum ErrorCode {
     USERNAME_NOT_FOUND(UNAUTHORIZED.value(), "존재하지 않는 사용자입니다."),
     AUTHENTICATE_FAIL(UNAUTHORIZED.value(), "사용자 인증을 실패했습니다."),
     USERNAME_ALREADY_EXISTS(CONFLICT.value(), "이미 존재하는 사용자입니다."),
-    STORE_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 매장입니다.");
+    STORE_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 매장입니다."),
+    READ_STORE_FORBIDDEN(FORBIDDEN.value(), "읽기 권한이 없습니다."),
+    UPDATE_STORE_FORBIDDEN(FORBIDDEN.value(), "수정 권한이 없습니다."),
+    DELETE_STORE_FORBIDDEN(FORBIDDEN.value(), "삭제 권한이 없습니다.");
 
     private final int status;
     private final String description;
