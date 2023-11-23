@@ -42,9 +42,11 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
             .name(request.name())
             .description(request.description())
             .address(request.address())
+            .latitude(request.latitude())
+            .longitude(request.longitude())
             .build());
 
-        return StoreDto.fromEntity(save);
+        return storeMapper.map(save);
     }
 
     /**
@@ -87,7 +89,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
 
         storeRepository.save(store);
 
-        return StoreDto.fromEntity(store);
+        return storeMapper.map(store);
     }
 
     /**
@@ -138,7 +140,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
      */
     @Override
     public boolean checkAccessUpdateStore(Long id, Member member) {
-        if (checkPermission(id, member)) {
+        if (!checkPermission(id, member)) {
             throw new ReservationException(UPDATE_STORE_FORBIDDEN);
         }
         return true;
@@ -153,7 +155,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
      */
     @Override
     public boolean checkAccessDeleteStore(Long id, Member member) {
-        if (checkPermission(id, member)) {
+        if (!checkPermission(id, member)) {
             throw new ReservationException(DELETE_STORE_FORBIDDEN);
         }
         return true;
