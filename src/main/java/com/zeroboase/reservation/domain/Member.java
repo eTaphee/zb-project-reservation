@@ -1,5 +1,7 @@
 package com.zeroboase.reservation.domain;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 import com.zeroboase.reservation.type.Constant;
 import com.zeroboase.reservation.type.Role;
 import jakarta.persistence.Column;
@@ -14,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,9 +40,8 @@ public class Member extends BaseEntity implements UserDetails {
      * 사용자 PK
      */
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
     /**
      * 아이디
