@@ -3,7 +3,7 @@ package com.zeroboase.reservation.dto.response;
 import com.zeroboase.reservation.dto.TokenDto;
 
 /**
- * 로그인 응답 dto
+ * 로그인 응답
  *
  * @param accessToken 액세스 토큰
  */

@@ -1,5 +1,7 @@
 package com.zeroboase.reservation.dto.request;
 
+import static com.zeroboase.reservation.type.RegexPattern.TEL;
+import static com.zeroboase.reservation.type.ValidationMessage.INVALID_TEL_FORMAT;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_ADDRESS_NOT_BLANK;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_DESCRIPTION_NOT_BLANK;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LATITUDE_NOT_NULL;
@@ -7,9 +9,11 @@ import static com.zeroboase.reservation.type.ValidationMessage.STORE_LATITUDE_RA
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LONGITUDE_NOT_NULL;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LONGITUDE_RANGE;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_NAME_NOT_BLANK;
+import static com.zeroboase.reservation.type.ValidationMessage.STORE_TEL_NOT_BLANK;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -24,8 +28,13 @@ import org.hibernate.validator.constraints.Range;
  * @param longitude   매장 경도
  */
 public record CreateStoreRequestDto(
-    @NotBlank(message = STORE_NAME_NOT_BLANK) String name,
-    @NotBlank(message = STORE_DESCRIPTION_NOT_BLANK) String description,
+    @NotBlank(message = STORE_NAME_NOT_BLANK)
+    String name,
+    @NotBlank(message = STORE_DESCRIPTION_NOT_BLANK)
+    String description,
+    @NotBlank(message = STORE_TEL_NOT_BLANK)
+    @Pattern(regexp = TEL, message = INVALID_TEL_FORMAT)
+    String tel,
     @NotBlank(message = STORE_ADDRESS_NOT_BLANK) String address,
     @NotNull(message = STORE_LATITUDE_NOT_NULL)
     @Range(min = 32, max = 39, message = STORE_LATITUDE_RANGE)

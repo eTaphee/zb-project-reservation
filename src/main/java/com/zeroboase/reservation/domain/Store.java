@@ -14,10 +14,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
+@DynamicInsert
 @Getter
 @NoArgsConstructor(force = true, access = PROTECTED)
 public class Store extends BaseEntity {
@@ -42,6 +45,12 @@ public class Store extends BaseEntity {
     private String description;
 
     /**
+     * 매장 연락처
+     */
+    @Setter
+    private String tel;
+
+    /**
      * 매장 주소
      */
     @Setter
@@ -60,6 +69,20 @@ public class Store extends BaseEntity {
     private Double latitude;
 
     /**
+     * 매장 평균 별점
+     */
+    @Setter
+    @ColumnDefault("0")
+    private Double starRating;
+
+    /**
+     * 매장 리뷰 수
+     */
+    @Setter
+    @ColumnDefault("0")
+    private Long reviewCount;
+
+    /**
      * 매장 등록일시
      */
     @CreatedDate
@@ -74,10 +97,11 @@ public class Store extends BaseEntity {
     private Member partner;
 
     @Builder
-    public Store(String name, String description, String address, Double longitude,
+    public Store(String name, String description, String tel, String address, Double longitude,
         Double latitude) {
         this.name = name;
         this.description = description;
+        this.tel = tel;
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 /**
- * 로그인 요청 dto
+ * 로그인 요청
  *
  * @param username 아이디
  * @param password 패스워드

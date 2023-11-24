@@ -1,21 +1,23 @@
 package com.zeroboase.reservation.service;
 
 import com.zeroboase.reservation.domain.Member;
-import com.zeroboase.reservation.dto.StoreDto;
+import com.zeroboase.reservation.dto.PartnerStoreDto;
+import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
 import com.zeroboase.reservation.dto.request.CreateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.PageQueryDto;
 import com.zeroboase.reservation.dto.request.UpdateStoreRequestDto;
-import java.util.List;
+import com.zeroboase.reservation.dto.response.PageResponseDto;
 
 public interface PartnerStoreService {
 
-    StoreDto createStore(CreateStoreRequestDto request);
+    PartnerStoreDto createStore(CreateStoreRequestDto request);
 
-    StoreDto readStoreById(Long id);
+    PartnerStoreInfoDto getStoreById(Long id);
 
     // TODO: 페이징 처리 여부
-    List<StoreDto> readStoreList(Member member);
+    PageResponseDto<PartnerStoreDto> getStoreList(PageQueryDto query);
 
-    StoreDto updateStore(Long id, UpdateStoreRequestDto request);
+    PartnerStoreDto updateStore(Long id, UpdateStoreRequestDto request);
 
     void deleteStore(Long id);
 

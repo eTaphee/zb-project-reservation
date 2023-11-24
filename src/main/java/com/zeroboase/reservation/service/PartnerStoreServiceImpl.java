@@ -5,42 +5,49 @@ import static com.zeroboase.reservation.exception.ErrorCode.READ_STORE_FORBIDDEN
 import static com.zeroboase.reservation.exception.ErrorCode.STORE_NOT_FOUND;
 import static com.zeroboase.reservation.exception.ErrorCode.UPDATE_STORE_FORBIDDEN;
 
+import com.zeroboase.reservation.configuration.security.AuthenticationFacade;
 import com.zeroboase.reservation.domain.Member;
 import com.zeroboase.reservation.domain.Store;
-import com.zeroboase.reservation.dto.StoreDto;
+import com.zeroboase.reservation.dto.PartnerStoreDto;
+import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
 import com.zeroboase.reservation.dto.request.CreateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.PageQueryDto;
 import com.zeroboase.reservation.dto.request.UpdateStoreRequestDto;
+import com.zeroboase.reservation.dto.response.PageResponseDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.mapper.StoreMapper;
 import com.zeroboase.reservation.repository.StoreRepository;
-import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 파트너 상점 서비스
+ * 파트너 매장 서비스
  */
 @Service(value = "partnerStoreService")
 @RequiredArgsConstructor
 public class PartnerStoreServiceImpl implements PartnerStoreService {
 
+    private final AuthenticationFacade authenticationFacade;
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
 
     /**
-     * 상점 추가
+     * 매장 추가
      *
-     * @param request 상점 추가 요청
-     * @return 추가된 상점 정보
+     * @param request 매장 추가 요청
+     * @return 추가된 매장 정보
      */
     @Transactional
     @Override
-    public StoreDto createStore(CreateStoreRequestDto request) {
+    public PartnerStoreDto createStore(CreateStoreRequestDto request) {
         Store save = storeRepository.save(Store.builder()
             .name(request.name())
             .description(request.description())
+            .tel(request.tel())
             .address(request.address())
             .latitude(request.latitude())
             .longitude(request.longitude())
@@ -50,38 +57,42 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
     }
 
     /**
-     * 파트너 상점 정보 조회
+     * 파트너 매장 상세 정보 조회
      *
-     * @param id 조회 할 상점 아이디
-     * @return 상점 정보
+     * @param id 매장 아이디
+     * @return 파트너 매장 상세 정보
      */
     @Transactional(readOnly = true)
     @Override
-    public StoreDto readStoreById(Long id) {
-        return storeRepository.findDtoById(id)
+    public PartnerStoreInfoDto getStoreById(Long id) {
+        return storeRepository.findPartnerStoreInfoById(id)
             .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
     }
 
     /**
-     * 파트너 상점 목록 조회
+     * 파트너 매장 목록 페이징 조회
      *
-     * @return 상점 목록
+     * @param query 페이징 정보
+     * @return 페이징된 파트너 매장 목록
      */
     @Transactional(readOnly = true)
     @Override
-    public List<StoreDto> readStoreList(Member member) {
-        return storeRepository.findAllDtoByPartnerId(member.getId());
+    public PageResponseDto<PartnerStoreDto> getStoreList(PageQueryDto query) {
+        Member member = authenticationFacade.getAuthenticatedMember();
+        Pageable pageable = PageRequest.of(query.pageNumber(), query.pageSize());
+        return PageResponseDto.from(
+            storeRepository.findAllDtoByPartnerId(pageable, member.getId()));
     }
 
     /**
-     * 파트너 상점 수정
+     * 파트너 매장 수정
      *
-     * @param id      수정 할 상점 아이디
-     * @param request 상점 수정 요청
+     * @param id      수정 할 매장 아이디
+     * @param request 매장 수정 요청
      */
     @Transactional
     @Override
-    public StoreDto updateStore(Long id, UpdateStoreRequestDto request) {
+    public PartnerStoreDto updateStore(Long id, UpdateStoreRequestDto request) {
         Store store = storeRepository.findById(id)
             .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
 
@@ -93,9 +104,9 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
     }
 
     /**
-     * 파트너 상점 삭제
+     * 파트너 매장 삭제
      *
-     * @param id 삭제 할 상점 아이디
+     * @param id 삭제 할 매장 아이디
      */
     @Transactional
     @Override

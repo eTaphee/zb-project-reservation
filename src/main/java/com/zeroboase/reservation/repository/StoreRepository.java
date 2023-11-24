@@ -1,9 +1,11 @@
 package com.zeroboase.reservation.repository;
 
 import com.zeroboase.reservation.domain.Store;
-import com.zeroboase.reservation.dto.StoreDto;
-import java.util.List;
+import com.zeroboase.reservation.dto.PartnerStoreDto;
+import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,21 +15,23 @@ import org.springframework.stereotype.Repository;
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
     /**
-     * 매장 엔티티를 DTO로 변환
+     * 파트너 매장 상세 정보 조회
      *
      * @param id 매장 아이디
-     * @return 매장 DTO
+     * @return 파트너 매장 상세 정보
      */
-    Optional<StoreDto> findDtoById(Long id);
+    Optional<PartnerStoreInfoDto> findPartnerStoreInfoById(Long id);
 
     // TODO: 왜 by를 빼면 오류가 나는지?
 
     /**
-     * 모든 매장 엔티티를 조회
+     * 파트너 매장 목록 페이징 조회
      *
-     * @return 매장 DTO 리스트
+     * @param pageable  페이징 정보
+     * @param partnerId 파트너 아이디
+     * @return 페이징된 파트너 매장 목록
      */
-    List<StoreDto> findAllDtoByPartnerId(Long partnerId);
+    Page<PartnerStoreDto> findAllDtoByPartnerId(Pageable pageable, Long partnerId);
 
     /**
      * 매장의 파트너 아이디 조회

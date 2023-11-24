@@ -1,8 +1,11 @@
 package com.zeroboase.reservation.dto.request;
 
+import static com.zeroboase.reservation.type.RegexPattern.TEL;
+import static com.zeroboase.reservation.type.ValidationMessage.INVALID_TEL_FORMAT;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LATITUDE_RANGE;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LONGITUDE_RANGE;
 
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -12,6 +15,7 @@ import org.hibernate.validator.constraints.Range;
  *
  * @param name        매장 이름
  * @param description 매장 설명
+ * @param tel         매장 연락처
  * @param address     매장 주소
  * @param latitude    매장 위도
  * @param Double      매장 경도
@@ -19,6 +23,8 @@ import org.hibernate.validator.constraints.Range;
 public record UpdateStoreRequestDto(
     String name,
     String description,
+    @Pattern(regexp = TEL, message = INVALID_TEL_FORMAT)
+    String tel,
     String address,
     @Range(min = 32, max = 39, message = STORE_LATITUDE_RANGE)
     Double latitude,
