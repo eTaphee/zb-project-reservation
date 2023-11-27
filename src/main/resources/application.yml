@@ -1,15 +1,23 @@
 spring:
+#  datasource:
+#    url: jdbc:h2:mem:reservation
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#  h2:
+#    console:
+#      enabled: true
+  sql:
+    init:
+      mode: always
   datasource:
-    url: jdbc:h2:mem:reservation
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: true
+    url: jdbc:mariadb://localhost/reservation?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1q2w3e!Q@W#E
+    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     defer-datasource-initialization: true
-    database-platform: H2
+    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create-drop
     open-in-view: false

@@ -1,7 +1,5 @@
 package com.zeroboase.reservation.configuration.security;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-
 import com.zeroboase.reservation.exception.ExceptionHandlerFilter;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -38,14 +36,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers(toH2Console())
-                .disable())
+            .csrf(AbstractHttpConfigurer::disable)
             .headers(headers -> headers
                 .frameOptions(FrameOptionsConfig::disable))
             .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(toH2Console()).permitAll()
                 .requestMatchers(Stream.of(PERMIT_ALL_PATTERNS)
                     .map(AntPathRequestMatcher::antMatcher)
                     .toArray(AntPathRequestMatcher[]::new)).permitAll()

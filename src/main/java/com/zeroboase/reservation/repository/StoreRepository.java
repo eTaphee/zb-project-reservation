@@ -1,6 +1,8 @@
 package com.zeroboase.reservation.repository;
 
 import com.zeroboase.reservation.domain.Store;
+import com.zeroboase.reservation.dto.CustomerStoreDto;
+import com.zeroboase.reservation.dto.CustomerStoreInfoDto;
 import com.zeroboase.reservation.dto.PartnerStoreDto;
 import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
 import java.util.Optional;
@@ -41,4 +43,11 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
      */
     @Query("SELECT m.username FROM Store s JOIN Member m ON s.partner.id = m.id WHERE s.id = :store_id")
     Optional<String> findPartnerUsernameById(@Param("store_id") Long id);
+
+    @Query("SELECT new com.zeroboase.reservation.dto.CustomerStoreDto(id , name, description, starRating, reviewCount, CAST(ST_DISTANCE_SPHERE(point(:sourceLongitude, :sourceLatitude), point(longitude, latitude)) AS DOUBLE) AS distance) FROM Store")
+    Page<CustomerStoreDto> findAllCustomerStoreDto(Pageable pageable,
+        @Param("sourceLatitude") Double latitude,
+        @Param("sourceLongitude") Double longitude);
+
+    Optional<CustomerStoreInfoDto> findCustomStoreInfoById(Long id);
 }

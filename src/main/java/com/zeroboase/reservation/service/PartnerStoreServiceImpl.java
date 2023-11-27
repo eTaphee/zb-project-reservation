@@ -10,9 +10,9 @@ import com.zeroboase.reservation.domain.Member;
 import com.zeroboase.reservation.domain.Store;
 import com.zeroboase.reservation.dto.PartnerStoreDto;
 import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
-import com.zeroboase.reservation.dto.request.CreateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.PageQueryDto;
-import com.zeroboase.reservation.dto.request.UpdateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
 import com.zeroboase.reservation.dto.response.PageResponseDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.mapper.StoreMapper;
@@ -64,7 +64,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
      */
     @Transactional(readOnly = true)
     @Override
-    public PartnerStoreInfoDto getStoreById(Long id) {
+    public PartnerStoreInfoDto getStoreInfo(Long id) {
         return storeRepository.findPartnerStoreInfoById(id)
             .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
     }
@@ -72,14 +72,14 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
     /**
      * 파트너 매장 목록 페이징 조회
      *
-     * @param query 페이징 정보
+     * @param query 페이징 요청
      * @return 페이징된 파트너 매장 목록
      */
     @Transactional(readOnly = true)
     @Override
     public PageResponseDto<PartnerStoreDto> getStoreList(PageQueryDto query) {
         Member member = authenticationFacade.getAuthenticatedMember();
-        Pageable pageable = PageRequest.of(query.pageNumber(), query.pageSize());
+        Pageable pageable = PageRequest.of(query.getPageNumber(), query.getPageSize());
         return PageResponseDto.from(
             storeRepository.findAllDtoByPartnerId(pageable, member.getId()));
     }

@@ -6,7 +6,7 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 import com.zeroboase.reservation.domain.Store;
 import com.zeroboase.reservation.dto.PartnerStoreDto;
-import com.zeroboase.reservation.dto.request.UpdateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

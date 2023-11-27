@@ -1,23 +1,60 @@
 package com.zeroboase.reservation.dto.request;
 
+import java.util.Objects;
+import lombok.Data;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+
 /**
- * 페이징 결과 요청 쿼리
- *
- * @param pageNumber 페이지 번호(1부터 시작)
- * @param pageSize   페이지 크기
+ * 페이징 요청
  */
-public record PageQueryDto(int pageNumber, int pageSize) {
+@Data
+public class PageQueryDto {
+
+    /**
+     * 페이지 번호(1부터 시작)
+     */
+    private Integer pageNumber;
+
+    /**
+     * 페이지 크기
+     */
+    private Integer pageSize;
+
+    /**
+     * 정렬 기준 데이터
+     */
+    private String criteria;
+
+    /**
+     * 정렬 순서
+     */
+    private Direction order;
+
+    public PageQueryDto() {
+        pageNumber = 1;
+        pageSize = 10;
+    }
 
     /**
      * Pageable을 사용하기 위해 pageNumber를 -1 처리
+     *
      * @return 요청에서 -1 된 페이지 번호(최소 0)
      */
-    @Override
-    public int pageNumber() {
+    public Integer getPageNumber() {
         if (this.pageNumber > 0) {
             return this.pageNumber - 1;
         }
 
         return 0;
+    }
+
+    public Pageable toPageable() {
+        if (Objects.isNull(criteria) || Objects.isNull(order)) {
+            return PageRequest.of(getPageNumber(), getPageSize());
+        }
+
+        return PageRequest.of(getPageNumber(), getPageSize(), getOrder(), getCriteria());
     }
 }

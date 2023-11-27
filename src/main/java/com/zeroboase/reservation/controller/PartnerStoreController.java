@@ -2,9 +2,9 @@ package com.zeroboase.reservation.controller;
 
 import com.zeroboase.reservation.dto.PartnerStoreDto;
 import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
-import com.zeroboase.reservation.dto.request.CreateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.PageQueryDto;
-import com.zeroboase.reservation.dto.request.UpdateStoreRequestDto;
+import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
 import com.zeroboase.reservation.dto.response.PageResponseDto;
 import com.zeroboase.reservation.service.PartnerStoreService;
 import jakarta.validation.Valid;
@@ -50,7 +50,7 @@ public class PartnerStoreController {
     @PreAuthorize("@partnerStoreService.checkAccessReadStore(#id, authentication.principal)")
     @GetMapping("{id}")
     public ResponseEntity<PartnerStoreInfoDto> getStoreById(@PathVariable Long id) {
-        return ResponseEntity.ok(partnerStoreService.getStoreById(id));
+        return ResponseEntity.ok(partnerStoreService.getStoreInfo(id));
     }
 
     @GetMapping

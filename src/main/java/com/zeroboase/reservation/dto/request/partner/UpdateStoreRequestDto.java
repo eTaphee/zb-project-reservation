@@ -1,4 +1,4 @@
-package com.zeroboase.reservation.dto.request;
+package com.zeroboase.reservation.dto.request.partner;
 
 import static com.zeroboase.reservation.type.RegexPattern.TEL;
 import static com.zeroboase.reservation.type.ValidationMessage.INVALID_TEL_FORMAT;
