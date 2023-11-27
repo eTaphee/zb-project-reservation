@@ -15,6 +15,7 @@ import lombok.Builder;
  * @param reviewCount  매장 리뷰 수
  * @param registeredAt 매장 등록일시
  */
+@Builder
 public record PartnerStoreInfoDto(Long id, String name, String description, String tel,
                                   String address, Double starRating, Long reviewCount,
                                   LocalDateTime registeredAt) {

@@ -6,6 +6,7 @@ import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.PageQueryDto;
 import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
 import com.zeroboase.reservation.dto.response.PageResponseDto;
+import com.zeroboase.reservation.dto.response.partner.UpdateStoreResponseDto;
 import com.zeroboase.reservation.service.PartnerStoreService;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -36,7 +37,7 @@ public class PartnerStoreController {
     @PostMapping
     public ResponseEntity<Void> createStore(
         @Valid @RequestBody CreateStoreRequestDto request) {
-        PartnerStoreDto store = partnerStoreService.createStore(request);
+        PartnerStoreInfoDto store = partnerStoreService.createStore(request);
 
         URI location = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -60,7 +61,7 @@ public class PartnerStoreController {
 
     @PreAuthorize("@partnerStoreService.checkAccessUpdateStore(#id, authentication.principal)")
     @PatchMapping("{id}")
-    public ResponseEntity<PartnerStoreDto> updateStore(@PathVariable Long id,
+    public ResponseEntity<UpdateStoreResponseDto> updateStore(@PathVariable Long id,
         @Valid @RequestBody UpdateStoreRequestDto request) {
         return ResponseEntity.ok(partnerStoreService.updateStore(id, request));
     }

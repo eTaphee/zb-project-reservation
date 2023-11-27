@@ -6,6 +6,7 @@ import static com.zeroboase.reservation.type.ValidationMessage.STORE_LATITUDE_RA
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LONGITUDE_RANGE;
 
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -18,8 +19,9 @@ import org.hibernate.validator.constraints.Range;
  * @param tel         매장 연락처
  * @param address     매장 주소
  * @param latitude    매장 위도
- * @param Double      매장 경도
+ * @param longitude   매장 경도
  */
+@Builder
 public record UpdateStoreRequestDto(
     String name,
     String description,
@@ -29,7 +31,7 @@ public record UpdateStoreRequestDto(
     @Range(min = 32, max = 39, message = STORE_LATITUDE_RANGE)
     Double latitude,
     @Range(min = 124, max = 131, message = STORE_LONGITUDE_RANGE)
-    Double Double) {
+    Double longitude) {
 
 }
 

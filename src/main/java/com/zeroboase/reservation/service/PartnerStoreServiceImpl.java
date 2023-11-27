@@ -10,10 +10,11 @@ import com.zeroboase.reservation.domain.Member;
 import com.zeroboase.reservation.domain.Store;
 import com.zeroboase.reservation.dto.PartnerStoreDto;
 import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
-import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.PageQueryDto;
+import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
 import com.zeroboase.reservation.dto.response.PageResponseDto;
+import com.zeroboase.reservation.dto.response.partner.UpdateStoreResponseDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.mapper.StoreMapper;
 import com.zeroboase.reservation.repository.StoreRepository;
@@ -43,7 +44,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
      */
     @Transactional
     @Override
-    public PartnerStoreDto createStore(CreateStoreRequestDto request) {
+    public PartnerStoreInfoDto createStore(CreateStoreRequestDto request) {
         Store save = storeRepository.save(Store.builder()
             .name(request.name())
             .description(request.description())
@@ -92,7 +93,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
      */
     @Transactional
     @Override
-    public PartnerStoreDto updateStore(Long id, UpdateStoreRequestDto request) {
+    public UpdateStoreResponseDto updateStore(Long id, UpdateStoreRequestDto request) {
         Store store = storeRepository.findById(id)
             .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
 
@@ -100,7 +101,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
 
         storeRepository.save(store);
 
-        return storeMapper.map(store);
+        return storeMapper.mapToUpdateStoreResponse(store);
     }
 
     /**

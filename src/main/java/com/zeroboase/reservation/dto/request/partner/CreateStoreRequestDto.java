@@ -14,6 +14,7 @@ import static com.zeroboase.reservation.type.ValidationMessage.STORE_TEL_NOT_BLA
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -27,6 +28,7 @@ import org.hibernate.validator.constraints.Range;
  * @param latitude    매장 위도
  * @param longitude   매장 경도
  */
+@Builder
 public record CreateStoreRequestDto(
     @NotBlank(message = STORE_NAME_NOT_BLANK)
     String name,

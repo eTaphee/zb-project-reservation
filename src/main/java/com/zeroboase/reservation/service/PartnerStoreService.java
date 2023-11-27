@@ -3,21 +3,22 @@ package com.zeroboase.reservation.service;
 import com.zeroboase.reservation.domain.Member;
 import com.zeroboase.reservation.dto.PartnerStoreDto;
 import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
-import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.PageQueryDto;
+import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
 import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
 import com.zeroboase.reservation.dto.response.PageResponseDto;
+import com.zeroboase.reservation.dto.response.partner.UpdateStoreResponseDto;
 
 public interface PartnerStoreService {
 
-    PartnerStoreDto createStore(CreateStoreRequestDto request);
+    PartnerStoreInfoDto createStore(CreateStoreRequestDto request);
 
     PartnerStoreInfoDto getStoreInfo(Long id);
 
     // TODO: 페이징 처리 여부
     PageResponseDto<PartnerStoreDto> getStoreList(PageQueryDto query);
 
-    PartnerStoreDto updateStore(Long id, UpdateStoreRequestDto request);
+    UpdateStoreResponseDto updateStore(Long id, UpdateStoreRequestDto request);
 
     void deleteStore(Long id);
 
