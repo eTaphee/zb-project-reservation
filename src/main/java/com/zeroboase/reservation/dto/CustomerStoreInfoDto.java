@@ -1,5 +1,7 @@
 package com.zeroboase.reservation.dto;
 
+import lombok.Builder;
+
 /**
  * 고객용 매장 상세 정보
  *
@@ -11,6 +13,7 @@ package com.zeroboase.reservation.dto;
  * @param starRating  매장 평균 별점
  * @param reviewCount 매장 리뷰 수
  */
+@Builder
 public record CustomerStoreInfoDto(Long id, String name, String description,
                                    String address, String tel,
                                    Double starRating, Long reviewCount) {

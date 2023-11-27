@@ -20,8 +20,6 @@ import com.zeroboase.reservation.mapper.StoreMapper;
 import com.zeroboase.reservation.repository.StoreRepository;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,9 +78,8 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
     @Override
     public PageResponseDto<PartnerStoreDto> getStoreList(PageQueryDto query) {
         Member member = authenticationFacade.getAuthenticatedMember();
-        Pageable pageable = PageRequest.of(query.getPageNumber(), query.getPageSize());
         return PageResponseDto.from(
-            storeRepository.findAllDtoByPartnerId(pageable, member.getId()));
+            storeRepository.findAllDtoByPartnerId(query.toPageable(), member.getId()));
     }
 
     /**
