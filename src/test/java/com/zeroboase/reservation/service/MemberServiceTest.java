@@ -17,6 +17,7 @@ import com.zeroboase.reservation.dto.request.LoginRequestDto;
 import com.zeroboase.reservation.dto.request.RegisterMemberRequestDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.repository.MemberRepository;
+import com.zeroboase.reservation.service.impl.MemberServiceImpl;
 import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;

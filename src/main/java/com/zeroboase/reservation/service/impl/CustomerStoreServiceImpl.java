@@ -1,4 +1,4 @@
-package com.zeroboase.reservation.service;
+package com.zeroboase.reservation.service.impl;
 
 import static com.zeroboase.reservation.exception.ErrorCode.STORE_NOT_FOUND;
 
@@ -8,6 +8,7 @@ import com.zeroboase.reservation.dto.request.PageQueryDto;
 import com.zeroboase.reservation.dto.response.PageResponseDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.repository.StoreRepository;
+import com.zeroboase.reservation.service.CustomerStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

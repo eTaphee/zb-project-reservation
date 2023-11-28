@@ -1,4 +1,4 @@
-package com.zeroboase.reservation.service;
+package com.zeroboase.reservation.service.impl;
 
 import static com.zeroboase.reservation.exception.ErrorCode.AUTHENTICATE_FAIL;
 import static com.zeroboase.reservation.exception.ErrorCode.USERNAME_ALREADY_EXISTS;
@@ -9,6 +9,7 @@ import com.zeroboase.reservation.dto.request.LoginRequestDto;
 import com.zeroboase.reservation.dto.request.RegisterMemberRequestDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.repository.MemberRepository;
+import com.zeroboase.reservation.service.MemberService;
 import com.zeroboase.reservation.type.Role;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;

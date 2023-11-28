@@ -1,4 +1,4 @@
-package com.zeroboase.reservation.service;
+package com.zeroboase.reservation.service.impl;
 
 import static com.zeroboase.reservation.exception.ErrorCode.DELETE_STORE_FORBIDDEN;
 import static com.zeroboase.reservation.exception.ErrorCode.READ_STORE_FORBIDDEN;
@@ -18,6 +18,7 @@ import com.zeroboase.reservation.dto.response.partner.UpdateStoreResponseDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.mapper.StoreMapper;
 import com.zeroboase.reservation.repository.StoreRepository;
+import com.zeroboase.reservation.service.PartnerStoreService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
