@@ -46,12 +46,13 @@ public class Member extends BaseEntity implements UserDetails {
     /**
      * 아이디
      */
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private final String username;
 
     /**
      * 비밀번호
      */
+    @Column(nullable = false)
     private final String password;
 
     /**
@@ -66,7 +67,7 @@ public class Member extends BaseEntity implements UserDetails {
      * 사용자 등록일시
      */
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime registeredAt;
 
     @Builder

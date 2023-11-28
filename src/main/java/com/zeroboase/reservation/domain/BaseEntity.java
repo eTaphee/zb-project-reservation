@@ -25,7 +25,7 @@ public abstract class BaseEntity {
      * 데이터 생성일시
      */
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     /**
