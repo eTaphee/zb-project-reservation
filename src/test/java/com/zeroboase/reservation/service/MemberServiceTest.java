@@ -18,7 +18,9 @@ import com.zeroboase.reservation.dto.request.RegisterMemberRequestDto;
 import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.repository.MemberRepository;
 import com.zeroboase.reservation.service.impl.MemberServiceImpl;
+import com.zeroboase.reservation.type.Role;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,26 +43,30 @@ class MemberServiceTest {
     @InjectMocks
     private MemberServiceImpl memberService;
 
+    private static final String username = "username";
+    private static final String password = "123123";
+    private static final List<Role> roles = Collections.singletonList(CUSTOMER);
+
     private static final LoginRequestDto loginRequest = LoginRequestDto.builder()
-        .username("username")
-        .password("1234")
+        .username(username)
+        .password(password)
         .build();
 
     private static final RegisterMemberRequestDto registerMemberRequest = RegisterMemberRequestDto.builder()
-        .username("username")
-        .password("1234")
+        .username(username)
+        .password(password)
         .build();
 
     @Test
     @DisplayName("회원 가입 성공")
     void successRegisterMember() {
         // given
-        given(memberRepository.existsByUsername(anyString())).willReturn(false);
+        given(memberRepository.existsByUsername(username)).willReturn(false);
 
         given(memberRepository.save(any()))
             .willReturn(Member.builder()
-                .username(registerMemberRequest.username())
-                .roles(Collections.singletonList(CUSTOMER))
+                .username(username)
+                .roles(roles)
                 .build());
 
         // when
@@ -69,17 +75,17 @@ class MemberServiceTest {
         MemberDto member = memberService.registerMember(registerMemberRequest, CUSTOMER);
 
         // then
-        verify(memberRepository, times(1)).existsByUsername(anyString());
+        verify(memberRepository, times(1)).existsByUsername(username);
         verify(memberRepository, times(1)).save(captor.capture());
-        assertEquals("username", member.username());
-        assertEquals(Collections.singletonList(CUSTOMER), member.roles());
+        assertEquals(username, member.username());
+        assertEquals(roles, member.roles());
     }
 
     @Test
     @DisplayName("회원 가입 실패 - 아이디 중복")
     void failRegisterMember_USERNAME_ALREADY_EXISTS() {
         // given
-        given(memberRepository.existsByUsername(anyString())).willReturn(true);
+        given(memberRepository.existsByUsername(username)).willReturn(true);
 
         // when
         ReservationException exception = assertThrows(ReservationException.class,
@@ -93,13 +99,13 @@ class MemberServiceTest {
     @DisplayName("로그인 성공")
     void successAuthenticate() {
         // given
-        given(memberRepository.findByUsername(anyString()))
+        given(memberRepository.findByUsername(username))
             .willReturn(
                 Optional.of(
                     Member.builder()
-                        .username("username")
-                        .password("12345")
-                        .roles(Collections.singletonList(CUSTOMER))
+                        .username(username)
+                        .password(password)
+                        .roles(roles)
                         .build()));
 
         given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
@@ -108,15 +114,15 @@ class MemberServiceTest {
         MemberDto member = memberService.authenticate(loginRequest);
 
         // then
-        assertEquals("username", member.username());
-        assertEquals(Collections.singletonList(CUSTOMER), member.roles());
+        assertEquals(username, member.username());
+        assertEquals(roles, member.roles());
     }
 
     @Test
     @DisplayName("로그인 실패 - 사용자 없음")
     void failAuthenticate_username_AUTHENTICATE_FAIL() {
         // given
-        given(memberRepository.findByUsername(anyString())).willReturn(Optional.empty());
+        given(memberRepository.findByUsername(username)).willReturn(Optional.empty());
 
         // when
         ReservationException exception = assertThrows(ReservationException.class,
@@ -130,7 +136,7 @@ class MemberServiceTest {
     @DisplayName("로그인 실패 - 패스워드 불일치")
     void failAuthenticate_password_AUTHENTICATE_FAIL() {
         // given
-        given(memberRepository.findByUsername(anyString()))
+        given(memberRepository.findByUsername(username))
             .willReturn(Optional.of(Member.builder().build()));
 
         // when
