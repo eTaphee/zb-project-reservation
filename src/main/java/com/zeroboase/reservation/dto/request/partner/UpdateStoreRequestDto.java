@@ -1,11 +1,9 @@
 package com.zeroboase.reservation.dto.request.partner;
 
-import static com.zeroboase.reservation.type.RegexPattern.TEL;
-import static com.zeroboase.reservation.type.ValidationMessage.INVALID_TEL_FORMAT;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LATITUDE_RANGE;
 import static com.zeroboase.reservation.type.ValidationMessage.STORE_LONGITUDE_RANGE;
 
-import jakarta.validation.constraints.Pattern;
+import com.zeroboase.reservation.validator.annotation.Telephone;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Range;
 
@@ -25,7 +23,7 @@ import org.hibernate.validator.constraints.Range;
 public record UpdateStoreRequestDto(
     String name,
     String description,
-    @Pattern(regexp = TEL, message = INVALID_TEL_FORMAT)
+    @Telephone
     String tel,
     String address,
     @Range(min = 32, max = 39, message = STORE_LATITUDE_RANGE)
