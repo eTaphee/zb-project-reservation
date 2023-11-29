@@ -15,7 +15,7 @@ import com.zeroboase.reservation.domain.store.dto.model.PartnerStoreInfoDto;
 import com.zeroboase.reservation.domain.common.dto.PageQuery;
 import com.zeroboase.reservation.domain.common.dto.PageResponse;
 import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.mapper.StoreMapper;
+import com.zeroboase.reservation.domain.store.mapper.StoreMapper;
 import com.zeroboase.reservation.domain.store.repository.StoreRepository;
 import com.zeroboase.reservation.domain.store.service.PartnerStoreService;
 import java.util.Objects;

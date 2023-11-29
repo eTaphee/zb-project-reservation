@@ -1,7 +1,7 @@
 package com.zeroboase.reservation.domain.inventory.service.impl;
 
 import com.zeroboase.reservation.domain.inventory.dto.model.CustomerInventoryDto;
-import com.zeroboase.reservation.mapper.InventoryMapper;
+import com.zeroboase.reservation.domain.inventory.mapper.InventoryMapper;
 import com.zeroboase.reservation.domain.inventory.repository.InventoryRepository;
 import com.zeroboase.reservation.domain.inventory.service.CustomerInventoryService;
 import java.time.LocalDate;

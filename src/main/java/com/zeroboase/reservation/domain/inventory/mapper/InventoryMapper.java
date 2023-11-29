@@ -1,4 +1,4 @@
-package com.zeroboase.reservation.mapper;
+package com.zeroboase.reservation.domain.inventory.mapper;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;

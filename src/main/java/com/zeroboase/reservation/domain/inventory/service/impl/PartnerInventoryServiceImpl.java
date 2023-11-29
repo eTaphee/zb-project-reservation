@@ -15,7 +15,7 @@ import com.zeroboase.reservation.domain.inventory.entity.Inventory;
 import com.zeroboase.reservation.domain.inventory.service.PartnerInventoryService;
 import com.zeroboase.reservation.domain.member.entity.Member;
 import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.mapper.InventoryMapper;
+import com.zeroboase.reservation.domain.inventory.mapper.InventoryMapper;
 import com.zeroboase.reservation.domain.inventory.repository.InventoryRepository;
 import com.zeroboase.reservation.domain.store.repository.StoreRepository;
 import java.time.LocalDate;
