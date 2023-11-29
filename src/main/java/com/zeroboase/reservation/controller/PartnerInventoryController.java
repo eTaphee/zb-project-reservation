@@ -29,13 +29,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  */
 @RestController
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('PARTNER')")
 @RequestMapping("/partner/inventories")
 public class PartnerInventoryController {
 
     private final PartnerInventoryService partnerInventoryService;
 
-    @PreAuthorize("@partnerInventoryService.checkAccessCreateInventory(#request.storeId(), authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @partnerInventoryService.checkAccessCreateInventory(#request.storeId(), authentication.principal)")
     @PostMapping
     public ResponseEntity<CreateInventoryResponseDto> createInventory(
         @Valid @RequestBody CreateInventoryRequestDto request) {
@@ -50,7 +49,7 @@ public class PartnerInventoryController {
         return ResponseEntity.created(location).body(inventory);
     }
 
-    @PreAuthorize("@partnerInventoryService.checkAccessReadInventory(#storeId, authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @partnerInventoryService.checkAccessReadInventory(#storeId, authentication.principal)")
     @GetMapping
     public ResponseEntity<List<PartnerInventoryDto>> getInventoryList(
         @RequestParam("store_id") Long storeId,
@@ -58,14 +57,14 @@ public class PartnerInventoryController {
         return ResponseEntity.ok(partnerInventoryService.getInventoryList(storeId, inventoryDate));
     }
 
-    @PreAuthorize("@partnerInventoryService.checkAccessUpdateInventory(#id, authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @partnerInventoryService.checkAccessUpdateInventory(#id, authentication.principal)")
     @PatchMapping("{id}")
     public ResponseEntity<UpdateInventoryResponseDto> updateInventory(@PathVariable Long id,
         @Valid @RequestBody UpdateInventoryRequestDto request) {
         return ResponseEntity.ok(partnerInventoryService.updateInventory(id, request));
     }
 
-    @PreAuthorize("@partnerInventoryService.checkAccessDeleteInventory(#id, authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @partnerInventoryService.checkAccessDeleteInventory(#id, authentication.principal)")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteInventory(@PathVariable Long id) {
         partnerInventoryService.deleteInventory(id);

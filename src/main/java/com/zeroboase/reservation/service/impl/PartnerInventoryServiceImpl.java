@@ -23,6 +23,7 @@ import com.zeroboase.reservation.service.PartnerInventoryService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +92,10 @@ public class PartnerInventoryServiceImpl implements PartnerInventoryService {
     @Override
     public List<PartnerInventoryDto> getInventoryList(Long storeId, LocalDate inventoryDate) {
         return inventoryRepository.findAllByStoreIdAndInventoryDateOrderByInventoryTime(storeId,
-            inventoryDate);
+                inventoryDate)
+            .stream()
+            .map(inventoryMapper::mapToPartnerInventory)
+            .collect(Collectors.toList());
     }
 
     /**

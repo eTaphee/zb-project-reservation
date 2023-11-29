@@ -1,7 +1,6 @@
 package com.zeroboase.reservation.repository;
 
 import com.zeroboase.reservation.domain.Inventory;
-import com.zeroboase.reservation.dto.PartnerInventoryDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -17,7 +16,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     boolean existsByStoreIdAndInventoryDateAndInventoryTime(Long storeId,
         LocalDate inventoryDate, LocalTime inventoryTime);
 
-    List<PartnerInventoryDto> findAllByStoreIdAndInventoryDateOrderByInventoryTime(Long storeId,
+    List<Inventory> findAllByStoreIdAndInventoryDateOrderByInventoryTime(Long storeId,
         LocalDate inventoryDate);
 
     @Query("SELECT m.username FROM Store s JOIN Inventory i ON s.id = i.storeId JOIN Member m ON s.partner.id = m.id WHERE i.id = :inventory_id")
