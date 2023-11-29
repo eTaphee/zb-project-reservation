@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ReservationException.class)
-    public ResponseEntity<ErrorResponseDto> handleAccountException(ReservationException e) {
+    public ResponseEntity<ErrorResponse> handleAccountException(ReservationException e) {
         log.error("{} is occurred.", e.getErrorCode(), e);
         return getErrorResponseResponseEntity(e.getErrorCode());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
         MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException is occurred.", e);
         return getErrorResponseResponseEntity(VALIDATION_FAIL,
@@ -32,35 +32,35 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorResponseDto> handleMissingServletRequestParameterException(
+    public ResponseEntity<ErrorResponse> handleMissingServletRequestParameterException(
         MissingServletRequestParameterException e) {
         log.error("MissingServletRequestParameterException is occurred.", e);
         return getErrorResponseResponseEntity(VALIDATION_FAIL, e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponseDto> handleAccessDeniedException(
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(
         AccessDeniedException e) {
         log.error("AccessDeniedException is occurred.", e);
         return getErrorResponseResponseEntity(ACCESS_DENIED);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Exception is occurred.", e);
 
         return getErrorResponseResponseEntity(INTERNAL_ERROR);
     }
 
-    private static ResponseEntity<ErrorResponseDto> getErrorResponseResponseEntity(
+    private static ResponseEntity<ErrorResponse> getErrorResponseResponseEntity(
         ErrorCode errorCode) {
-        return new ResponseEntity<>(ErrorResponseDto.from(errorCode),
+        return new ResponseEntity<>(ErrorResponse.from(errorCode),
             HttpStatus.valueOf(errorCode.getStatus()));
     }
 
-    private static ResponseEntity<ErrorResponseDto> getErrorResponseResponseEntity(
+    private static ResponseEntity<ErrorResponse> getErrorResponseResponseEntity(
         ErrorCode errorCode, String message) {
-        return new ResponseEntity<>(ErrorResponseDto.builder()
+        return new ResponseEntity<>(ErrorResponse.builder()
             .status(errorCode.getStatus())
             .errorCode(errorCode)
             .description(message)

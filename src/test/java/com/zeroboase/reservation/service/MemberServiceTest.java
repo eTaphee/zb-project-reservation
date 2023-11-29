@@ -1,8 +1,8 @@
 package com.zeroboase.reservation.service;
 
+import static com.zeroboase.reservation.domain.member.entity.type.Role.CUSTOMER;
 import static com.zeroboase.reservation.exception.ErrorCode.AUTHENTICATE_FAIL;
 import static com.zeroboase.reservation.exception.ErrorCode.USERNAME_ALREADY_EXISTS;
-import static com.zeroboase.reservation.type.Role.CUSTOMER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,14 +11,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.zeroboase.reservation.domain.Member;
-import com.zeroboase.reservation.dto.MemberDto;
-import com.zeroboase.reservation.dto.request.LoginRequestDto;
-import com.zeroboase.reservation.dto.request.RegisterMemberRequestDto;
+import com.zeroboase.reservation.domain.member.dto.Login;
+import com.zeroboase.reservation.domain.member.dto.RegisterMember;
+import com.zeroboase.reservation.domain.member.dto.model.MemberDto;
+import com.zeroboase.reservation.domain.member.entity.Member;
+import com.zeroboase.reservation.domain.member.entity.type.Role;
+import com.zeroboase.reservation.domain.member.repository.MemberRepository;
+import com.zeroboase.reservation.domain.member.service.impl.MemberServiceImpl;
 import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.repository.MemberRepository;
-import com.zeroboase.reservation.service.impl.MemberServiceImpl;
-import com.zeroboase.reservation.type.Role;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -47,12 +47,12 @@ class MemberServiceTest {
     private static final String password = "123123";
     private static final List<Role> roles = Collections.singletonList(CUSTOMER);
 
-    private static final LoginRequestDto loginRequest = LoginRequestDto.builder()
+    private static final Login.Request loginRequest = Login.Request.builder()
         .username(username)
         .password(password)
         .build();
 
-    private static final RegisterMemberRequestDto registerMemberRequest = RegisterMemberRequestDto.builder()
+    private static final RegisterMember.Request registerMemberRequest = RegisterMember.Request.builder()
         .username(username)
         .password(password)
         .build();

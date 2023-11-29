@@ -3,10 +3,10 @@ package com.zeroboase.reservation.configuration.security;
 import static com.zeroboase.reservation.exception.ErrorCode.JWT_ERROR;
 import static com.zeroboase.reservation.exception.ErrorCode.TOKEN_EXPIRED;
 
-import com.zeroboase.reservation.dto.TokenDto;
+import com.zeroboase.reservation.domain.member.dto.model.TokenDto;
 import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.service.MemberService;
-import com.zeroboase.reservation.type.Role;
+import com.zeroboase.reservation.domain.member.service.MemberService;
+import com.zeroboase.reservation.domain.member.entity.type.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

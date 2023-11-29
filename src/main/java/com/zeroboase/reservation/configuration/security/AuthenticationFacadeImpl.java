@@ -1,6 +1,6 @@
 package com.zeroboase.reservation.configuration.security;
 
-import com.zeroboase.reservation.domain.Member;
+import com.zeroboase.reservation.domain.member.entity.Member;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 

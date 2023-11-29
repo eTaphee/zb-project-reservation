@@ -8,11 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.zeroboase.reservation.configuration.security.TokenProvider;
-import com.zeroboase.reservation.dto.CustomerStoreDto;
-import com.zeroboase.reservation.dto.CustomerStoreInfoDto;
-import com.zeroboase.reservation.dto.response.PageResponseDto;
+import com.zeroboase.reservation.domain.store.controller.CustomerStoreController;
+import com.zeroboase.reservation.domain.store.dto.model.CustomerStoreDto;
+import com.zeroboase.reservation.domain.store.dto.model.CustomerStoreInfoDto;
+import com.zeroboase.reservation.domain.common.dto.PageResponse;
 import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.service.CustomerStoreService;
+import com.zeroboase.reservation.domain.store.service.CustomerStoreService;
 import com.zeroboase.reservation.util.MockMvcUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,7 +88,7 @@ class CustomerStoreControllerTest {
     void successGetStoreList() throws Exception {
         // given
         given(customerStoreService.getStoreList(any(), any(), any()))
-            .willReturn(PageResponseDto.<CustomerStoreDto>builder()
+            .willReturn(PageResponse.<CustomerStoreDto>builder()
                 .pageNumber(1)
                 .pageSize(10)
                 .first(true)

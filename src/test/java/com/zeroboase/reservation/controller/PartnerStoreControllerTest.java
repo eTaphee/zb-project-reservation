@@ -2,13 +2,13 @@ package com.zeroboase.reservation.controller;
 
 import static com.zeroboase.reservation.exception.ErrorCode.STORE_NOT_FOUND;
 import static com.zeroboase.reservation.exception.ErrorCode.VALIDATION_FAIL;
-import static com.zeroboase.reservation.type.ValidationMessage.INVALID_TEL_FORMAT;
-import static com.zeroboase.reservation.type.ValidationMessage.STORE_ADDRESS_NOT_BLANK;
-import static com.zeroboase.reservation.type.ValidationMessage.STORE_DESCRIPTION_NOT_BLANK;
-import static com.zeroboase.reservation.type.ValidationMessage.STORE_LATITUDE_NOT_NULL;
-import static com.zeroboase.reservation.type.ValidationMessage.STORE_LONGITUDE_NOT_NULL;
-import static com.zeroboase.reservation.type.ValidationMessage.STORE_NAME_NOT_BLANK;
-import static com.zeroboase.reservation.type.ValidationMessage.STORE_TEL_NOT_BLANK;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.INVALID_TEL_FORMAT;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_ADDRESS_NOT_BLANK;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_DESCRIPTION_NOT_BLANK;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_LATITUDE_NOT_NULL;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_LONGITUDE_NOT_NULL;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_NAME_NOT_BLANK;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_TEL_NOT_BLANK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -16,14 +16,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.zeroboase.reservation.configuration.security.TokenProvider;
-import com.zeroboase.reservation.dto.PartnerStoreDto;
-import com.zeroboase.reservation.dto.PartnerStoreInfoDto;
-import com.zeroboase.reservation.dto.request.partner.CreateStoreRequestDto;
-import com.zeroboase.reservation.dto.request.partner.UpdateStoreRequestDto;
-import com.zeroboase.reservation.dto.response.PageResponseDto;
-import com.zeroboase.reservation.dto.response.partner.UpdateStoreResponseDto;
+import com.zeroboase.reservation.domain.common.dto.PageResponse;
+import com.zeroboase.reservation.domain.store.controller.PartnerStoreController;
+import com.zeroboase.reservation.domain.store.dto.CreateStore;
+import com.zeroboase.reservation.domain.store.dto.UpdateStore;
+import com.zeroboase.reservation.domain.store.dto.model.PartnerStoreDto;
+import com.zeroboase.reservation.domain.store.dto.model.PartnerStoreInfoDto;
+import com.zeroboase.reservation.domain.store.service.PartnerStoreService;
 import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.service.PartnerStoreService;
 import com.zeroboase.reservation.util.MockMvcUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,7 +61,7 @@ class PartnerStoreControllerTest {
             .build());
 
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .name("store")
             .description("description")
             .tel("02-1234-5678")
@@ -82,7 +82,7 @@ class PartnerStoreControllerTest {
     void failCreateStore_name_NotBlank() throws Exception {
         // given
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .description("description")
             .tel("02-1234-5678")
             .address("address")
@@ -106,7 +106,7 @@ class PartnerStoreControllerTest {
     void failCreateStore_description_NotBlank() throws Exception {
         // given
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .name("store")
             .tel("02-1234-5678")
             .address("address")
@@ -126,35 +126,11 @@ class PartnerStoreControllerTest {
     }
 
     @Test
-    @DisplayName("매장 등록 실패 - 유효성 검사(tel @NotBlank")
-    void failCreateStore_tel_NotBlank() throws Exception {
-        // given
-        // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
-            .name("store")
-            .description("description")
-            .address("address")
-            .latitude(37.0)
-            .longitude(127.0)
-            .build();
-
-        ResultActions resultActions = MockMvcUtil.performPost(mockMvc, CREATE_STORE_URL,
-            request);
-
-        // then
-        resultActions
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.status").value(400))
-            .andExpect(jsonPath("$.errorCode").value(VALIDATION_FAIL.toString()))
-            .andExpect(jsonPath("$.description").value(STORE_TEL_NOT_BLANK));
-    }
-
-    @Test
     @DisplayName("매장 등록 실패 - 유효성 검사(tel @Pattern")
     void failCreateStore_tel_Pattern() throws Exception {
         // given
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .name("store")
             .description("description")
             .tel("02-12345-634")
@@ -179,7 +155,7 @@ class PartnerStoreControllerTest {
     void failCreateStore_address_NotBlank() throws Exception {
         // given
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .name("store")
             .description("description")
             .tel("02-1234-5678")
@@ -203,7 +179,7 @@ class PartnerStoreControllerTest {
     void failCreateStore_latitude_NotNull() throws Exception {
         // given
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .name("store")
             .description("description")
             .tel("02-1234-5678")
@@ -227,7 +203,7 @@ class PartnerStoreControllerTest {
     void failCreateStore_longitude_NotNull() throws Exception {
         // given
         // when
-        CreateStoreRequestDto request = CreateStoreRequestDto.builder()
+        CreateStore.Request request = CreateStore.Request.builder()
             .name("store")
             .description("description")
             .tel("02-1234-5678")
@@ -297,7 +273,7 @@ class PartnerStoreControllerTest {
     void successGetStoreList() throws Exception {
         // given
         given(partnerStoreService.getStoreList(any()))
-            .willReturn(PageResponseDto.<PartnerStoreDto>builder()
+            .willReturn(PageResponse.<PartnerStoreDto>builder()
                 .pageNumber(1)
                 .pageSize(10)
                 .first(true)
@@ -321,7 +297,7 @@ class PartnerStoreControllerTest {
     void successUpdateStore() throws Exception {
         // given
         given(partnerStoreService.updateStore(anyLong(), any())).willReturn(
-            UpdateStoreResponseDto.builder()
+            UpdateStore.Response.builder()
                 .name("store")
                 .description("description")
                 .tel("02-1234-5678")
@@ -331,7 +307,9 @@ class PartnerStoreControllerTest {
                 .build());
 
         // when
-        UpdateStoreRequestDto request = UpdateStoreRequestDto.builder().build();
+        UpdateStore.Request request = UpdateStore.Request.builder()
+            .tel("02-1234-5678")
+            .build();
 
         ResultActions resultActions = MockMvcUtil.performPatch(mockMvc, "/partner/stores/1",
             request);
@@ -354,7 +332,9 @@ class PartnerStoreControllerTest {
             .willThrow(new ReservationException(STORE_NOT_FOUND));
 
         // when
-        UpdateStoreRequestDto request = UpdateStoreRequestDto.builder().build();
+        UpdateStore.Request request = UpdateStore.Request.builder()
+            .tel("02-1234-5678")
+            .build();
 
         ResultActions resultActions = MockMvcUtil.performPatch(mockMvc, "/partner/stores/1",
             request);

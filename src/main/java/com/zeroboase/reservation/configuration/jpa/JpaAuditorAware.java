@@ -1,6 +1,6 @@
 package com.zeroboase.reservation.configuration.jpa;
 
-import com.zeroboase.reservation.domain.Member;
+import com.zeroboase.reservation.domain.member.entity.Member;
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

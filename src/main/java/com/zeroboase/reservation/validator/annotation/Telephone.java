@@ -1,6 +1,6 @@
 package com.zeroboase.reservation.validator.annotation;
 
-import com.zeroboase.reservation.type.ValidationMessage;
+import com.zeroboase.reservation.validator.constant.ValidationMessage;
 import com.zeroboase.reservation.validator.TelephoneValidator;
 import jakarta.validation.Constraint;
 import java.lang.annotation.ElementType;

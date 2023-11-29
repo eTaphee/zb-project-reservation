@@ -1,6 +1,6 @@
 package com.zeroboase.reservation.configuration.jpa;
 
-import com.zeroboase.reservation.domain.Member;
+import com.zeroboase.reservation.domain.member.entity.Member;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

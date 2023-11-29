@@ -1,18 +1,19 @@
 package com.zeroboase.reservation.controller;
 
 import static com.zeroboase.reservation.exception.ErrorCode.VALIDATION_FAIL;
-import static com.zeroboase.reservation.type.Role.PARTNER;
-import static com.zeroboase.reservation.type.ValidationMessage.PASSWORD_NOT_BLANK;
-import static com.zeroboase.reservation.type.ValidationMessage.USERNAME_NOT_BLANK;
+import static com.zeroboase.reservation.domain.member.entity.type.Role.PARTNER;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.PASSWORD_NOT_BLANK;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.USERNAME_NOT_BLANK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.zeroboase.reservation.configuration.security.TokenProvider;
-import com.zeroboase.reservation.dto.MemberDto;
-import com.zeroboase.reservation.dto.request.RegisterMemberRequestDto;
-import com.zeroboase.reservation.service.MemberService;
+import com.zeroboase.reservation.domain.member.controller.PartnerController;
+import com.zeroboase.reservation.domain.member.dto.model.MemberDto;
+import com.zeroboase.reservation.domain.member.dto.RegisterMember;
+import com.zeroboase.reservation.domain.member.service.MemberService;
 import com.zeroboase.reservation.util.MockMvcUtil;
 import java.util.Collections;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +51,7 @@ public class PartnerControllerTest {
                 .build());
 
         // when
-        RegisterMemberRequestDto request = RegisterMemberRequestDto.builder()
+        RegisterMember.Request request = RegisterMember.Request.builder()
             .username("username")
             .password("password")
             .build();
@@ -67,7 +68,7 @@ public class PartnerControllerTest {
     void failRegisterPartner_username_NotBlank() throws Exception {
         // given
         // when
-        RegisterMemberRequestDto request = RegisterMemberRequestDto.builder()
+        RegisterMember.Request request = RegisterMember.Request.builder()
             .password("password")
             .build();
 
@@ -87,7 +88,7 @@ public class PartnerControllerTest {
     void failRegisterPartner_password_NotBlank() throws Exception {
         // given
         // when
-        RegisterMemberRequestDto request = RegisterMemberRequestDto.builder()
+        RegisterMember.Request request = RegisterMember.Request.builder()
             .username("username")
             .build();
 

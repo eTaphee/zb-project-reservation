@@ -1,20 +1,21 @@
 package com.zeroboase.reservation.controller;
 
 import static com.zeroboase.reservation.exception.ErrorCode.VALIDATION_FAIL;
-import static com.zeroboase.reservation.type.Role.CUSTOMER;
-import static com.zeroboase.reservation.type.ValidationMessage.PASSWORD_NOT_BLANK;
-import static com.zeroboase.reservation.type.ValidationMessage.USERNAME_NOT_BLANK;
+import static com.zeroboase.reservation.domain.member.entity.type.Role.CUSTOMER;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.PASSWORD_NOT_BLANK;
+import static com.zeroboase.reservation.validator.constant.ValidationMessage.USERNAME_NOT_BLANK;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.zeroboase.reservation.configuration.security.TokenProvider;
-import com.zeroboase.reservation.dto.MemberDto;
-import com.zeroboase.reservation.dto.TokenDto;
-import com.zeroboase.reservation.dto.request.LoginRequestDto;
-import com.zeroboase.reservation.service.MemberService;
-import com.zeroboase.reservation.type.Role;
+import com.zeroboase.reservation.domain.member.controller.AuthController;
+import com.zeroboase.reservation.domain.member.dto.Login;
+import com.zeroboase.reservation.domain.member.dto.model.MemberDto;
+import com.zeroboase.reservation.domain.member.dto.model.TokenDto;
+import com.zeroboase.reservation.domain.member.service.MemberService;
+import com.zeroboase.reservation.domain.member.entity.type.Role;
 import com.zeroboase.reservation.util.MockMvcUtil;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +51,7 @@ public class AuthControllerTest {
     @DisplayName("로그인 성공")
     void successLogin() throws Exception {
         // given
-        LoginRequestDto request = LoginRequestDto.builder()
+        Login.Request request = Login.Request.builder()
             .username(username)
             .password(password)
             .build();
@@ -83,7 +84,7 @@ public class AuthControllerTest {
     void failLogin_username_NotBlank() throws Exception {
         // given
         // when
-        LoginRequestDto request = LoginRequestDto.builder()
+        Login.Request request = Login.Request.builder()
             .password(password)
             .build();
 
@@ -102,7 +103,7 @@ public class AuthControllerTest {
     void failLogin_password_NotBlank() throws Exception {
         // given
         // when
-        LoginRequestDto request = LoginRequestDto.builder()
+        Login.Request request = Login.Request.builder()
             .username(username)
             .build();
 

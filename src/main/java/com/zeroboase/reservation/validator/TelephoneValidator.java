@@ -1,7 +1,7 @@
 package com.zeroboase.reservation.validator;
 
-import com.zeroboase.reservation.type.RegexPattern;
 import com.zeroboase.reservation.validator.annotation.Telephone;
+import com.zeroboase.reservation.validator.constant.RegexPattern;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
