@@ -4,9 +4,9 @@ import static com.zeroboase.reservation.exception.ErrorCode.JWT_ERROR;
 import static com.zeroboase.reservation.exception.ErrorCode.TOKEN_EXPIRED;
 
 import com.zeroboase.reservation.domain.member.dto.model.TokenDto;
-import com.zeroboase.reservation.exception.ReservationException;
-import com.zeroboase.reservation.domain.member.service.MemberService;
 import com.zeroboase.reservation.domain.member.entity.type.Role;
+import com.zeroboase.reservation.domain.member.service.MemberService;
+import com.zeroboase.reservation.exception.ReservationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -80,7 +80,7 @@ public class TokenProvider {
      * <p>
      * jwt의 sub 클래임으로 사용자 정보를 조회하여 인증 정보를 반환
      *
-     * @param jwt
+     * @param jwt jwt
      * @return 인증 정보
      */
     public Authentication getAuthentication(String jwt) {

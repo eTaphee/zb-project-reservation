@@ -46,11 +46,6 @@ public class PartnerInventoryServiceImpl implements PartnerInventoryService {
     @Transactional
     @Override
     public CreateInventory.Response createInventory(CreateInventory.Request request) {
-        validateCreateInventory(request);
-
-        // TODO: 시간 겹치는지 확인
-        // 지난 날에 대한 등록인지 확인
-        //
         if (inventoryRepository.existsByStoreIdAndInventoryDateAndInventoryTime(
             request.storeId(),
             request.inventoryDate(), request.inventoryTime())) {
@@ -66,18 +61,6 @@ public class PartnerInventoryServiceImpl implements PartnerInventoryService {
             .build());
 
         return inventoryMapper.mapToCreateInventoryResponse(inventory);
-    }
-
-    private void validateCreateInventory(CreateInventory.Request requestDto) {
-//        if (LocalDate.now().isAfter(requestDto.inventoryDate())) {
-//            throw new ReservationException(INVENTORY_DATE_IS_BEFORE_NOW);
-//        }
-
-//        if (LocalTime.now().isAfter(requestDto.inventoryTime())) {
-//            throw new ReservationException(INVENTORY_TIME_IS_BEFORE_NOW);
-//        }
-
-//        if (LocalTime.now().plusHours(d))
     }
 
     /**

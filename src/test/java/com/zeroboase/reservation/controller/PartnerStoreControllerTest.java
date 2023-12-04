@@ -8,7 +8,6 @@ import static com.zeroboase.reservation.validator.constant.ValidationMessage.STO
 import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_LATITUDE_NOT_NULL;
 import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_LONGITUDE_NOT_NULL;
 import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_NAME_NOT_BLANK;
-import static com.zeroboase.reservation.validator.constant.ValidationMessage.STORE_TEL_NOT_BLANK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;

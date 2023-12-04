@@ -2,7 +2,6 @@ package com.zeroboase.reservation.domain.common.encrypt;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
@@ -10,7 +9,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -24,7 +22,7 @@ public class EncryptAspect {
     public void savePointcut(Object entity) {
     }
 
-    @Before("savePointcut(entity)")
+    @Before(value = "savePointcut(entity)", argNames = "joinPoint,entity")
     public void beforeSave(JoinPoint joinPoint, Object entity)
         throws Exception {
         encryptFields(entity, getEncryptFields(entity.getClass()));
@@ -43,7 +41,8 @@ public class EncryptAspect {
         } else {
             if (result instanceof Optional<?> optionalResult) {
                 if (optionalResult.isPresent()) {
-                    decryptFields(optionalResult.get(), getEncryptFields(optionalResult.get().getClass()));
+                    decryptFields(optionalResult.get(),
+                        getEncryptFields(optionalResult.get().getClass()));
                 }
             } else {
                 decryptFields(result, getEncryptFields(result.getClass()));
@@ -52,8 +51,6 @@ public class EncryptAspect {
     }
 
     private Field[] getEncryptFields(Class<?> clazz) {
-        Field[] declaredFields = clazz.getDeclaredFields();
-
         return Arrays.stream(clazz.getDeclaredFields())
             .filter(field -> field.isAnnotationPresent(Encrypt.class))
             .toArray(Field[]::new);
