@@ -4,8 +4,8 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.zeroboase.reservation.domain.member.entity.Member;
 import com.zeroboase.reservation.domain.common.entity.BaseEntity;
+import com.zeroboase.reservation.domain.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -115,5 +115,32 @@ public class Store extends BaseEntity {
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    /**
+     * 별점 감소
+     *
+     * @param starRating 별점
+     */
+    public void decreaseStarRating(Double starRating) {
+        if (this.reviewCount == 1) {
+            this.reviewCount = 0L;
+            this.starRating = 0.0;
+        } else {
+            this.starRating =
+                ((this.starRating * this.reviewCount) - starRating) / (this.reviewCount - 1);
+            this.reviewCount--;
+        }
+    }
+
+    /**
+     * 별점 증가
+     *
+     * @param starRating 별점
+     */
+    public void increaseStarRating(Double starRating) {
+        this.starRating =
+            ((this.starRating * this.reviewCount) + starRating) / (this.reviewCount + 1);
+        this.reviewCount++;
     }
 }

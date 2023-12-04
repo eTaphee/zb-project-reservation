@@ -30,6 +30,8 @@ public enum ErrorCode {
     RESERVATION_WAIT_FOR_APPROVAL(BAD_REQUEST.value(), "승인을 기다리는 예약입니다."),
     RESERVATION_INFO_NOT_MATCHED(BAD_REQUEST.value(), "예약 정보가 불일치 합니다."),
     RESERVATION_IS_NOT_WAIT(BAD_REQUEST.value(), "대기 상태가 아닙니다."),
+    RESERVATION_IS_NOT_CHECKIN(BAD_REQUEST.value(), "체크인 되지 않은 예약입니다."),
+
 
     // 401
     TOKEN_EXPIRED(UNAUTHORIZED.value(), "토큰이 만료됐습니다."),
@@ -48,11 +50,13 @@ public enum ErrorCode {
     STORE_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 매장입니다."),
     INVENTORY_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 재고입니다."),
     RESERVATION_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 예약입니다."),
+    REVIEW_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 리뷰입니다."),
 
     // 409
     USERNAME_ALREADY_EXISTS(CONFLICT.value(), "이미 존재하는 사용자입니다."),
     INVENTORY_ALREADY_EXISTS(CONFLICT.value(), "이미 존재하는 재고입니다."),
     RESERVATION_ALREADY_EXISTS(CONFLICT.value(), "예약정보가 이미 존재합니다."),
+    REVIEW_ALREADY_EXISTS(CONFLICT.value(), "리뷰 작성 완료된 예약입니다."),
 
     // 500
     INTERNAL_ERROR(INTERNAL_SERVER_ERROR.value(), "내부 서버 오류 발생");
