@@ -7,6 +7,7 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.zeroboase.reservation.domain.common.encrypt.Encrypt;
 import com.zeroboase.reservation.domain.common.entity.BaseEntity;
 import com.zeroboase.reservation.domain.inventory.entity.Inventory;
 import com.zeroboase.reservation.domain.member.entity.Member;
@@ -52,6 +53,7 @@ public class Reservation extends BaseEntity {
     /**
      * 예약자 연락처
      */
+    @Encrypt
     @Column(nullable = false)
     private final String reservationPersonTel;
 
@@ -60,6 +62,7 @@ public class Reservation extends BaseEntity {
      * <p>
      * 예약한 사람과 이용하는 사람이 다른 경우
      */
+    @Encrypt
     @Column(nullable = false)
     private final String reservationPeronName;
 

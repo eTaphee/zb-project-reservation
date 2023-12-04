@@ -29,6 +29,7 @@ spring:
     secret: emItc3ByaW5nLWJvb3QtcmVzZXJ2YXRpb24tcHJvamVjdC1qd3Qtc2VjcmV0LWtleQo=
 
 options:
+  secretKey: 12345678901234561234567890123456
   maxAllowReserveTime: 10
   maxAllowCancelReservationTime: 10
   allowCheckInTime: 10
