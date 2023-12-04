@@ -47,7 +47,7 @@ public class PartnerStoreController {
         return ResponseEntity.created(location).build();
     }
 
-    @PreAuthorize("hasRole('PARTNER') and @partnerStoreService.checkAccessReadStore(#id, authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @storeSecurity.checkAccessAsPartner(#id)")
     @GetMapping("{id}")
     public ResponseEntity<PartnerStoreInfoDto> getStoreById(@PathVariable Long id) {
         return ResponseEntity.ok(partnerStoreService.getStoreInfo(id));
@@ -58,14 +58,14 @@ public class PartnerStoreController {
         return ResponseEntity.ok(partnerStoreService.getStoreList(query));
     }
 
-    @PreAuthorize("hasRole('PARTNER') and @partnerStoreService.checkAccessUpdateStore(#id, authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @storeSecurity.checkAccessAsPartner(#id)")
     @PatchMapping("{id}")
     public ResponseEntity<UpdateStore.Response> updateStore(@PathVariable Long id,
         @Valid @RequestBody UpdateStore.Request request) {
         return ResponseEntity.ok(partnerStoreService.updateStore(id, request));
     }
 
-    @PreAuthorize("hasRole('PARTNER') and @partnerStoreService.checkAccessDeleteStore(#id, authentication.principal)")
+    @PreAuthorize("hasRole('PARTNER') and @storeSecurity.checkAccessAsPartner(#id)")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
         partnerStoreService.deleteStore(id);

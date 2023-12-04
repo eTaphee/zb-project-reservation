@@ -39,14 +39,10 @@ public enum ErrorCode {
 
     // 403
     ACCESS_DENIED(FORBIDDEN.value(), "접근 권한이 없습니다."),
-    READ_STORE_FORBIDDEN(FORBIDDEN.value(), "읽기 권한이 없습니다."),
-    UPDATE_STORE_FORBIDDEN(FORBIDDEN.value(), "수정 권한이 없습니다."),
-    DELETE_STORE_FORBIDDEN(FORBIDDEN.value(), "삭제 권한이 없습니다."),
     CREATE_INVENTORY_FORBIDDEN(FORBIDDEN.value(), "등록 권한이 없습니다."),
     READ_INVENTORY_FORBIDDEN(FORBIDDEN.value(), "읽기 권한이 없습니다."),
     UPDATE_INVENTORY_FORBIDDEN(FORBIDDEN.value(), "읽기 권한이 없습니다."),
     DELETE_INVENTORY_FORBIDDEN(FORBIDDEN.value(), "읽기 권한이 없습니다."),
-    CANCEL_RESERVATION_FORBIDDEN(FORBIDDEN.value(), "취소 권한이 없습니다."),
 
     // 404
     STORE_NOT_FOUND(NOT_FOUND.value(), "존재하지 않는 매장입니다."),
