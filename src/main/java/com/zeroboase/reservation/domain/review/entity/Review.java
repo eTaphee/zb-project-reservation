@@ -16,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedBy;
@@ -36,6 +37,8 @@ public class Review extends BaseEntity {
     /**
      * 리뷰 내용
      */
+    @Setter
+    @Column(nullable = false)
     private String content;
 
     /**
@@ -47,6 +50,7 @@ public class Review extends BaseEntity {
     /**
      * 별점
      */
+    @Setter
     @ColumnDefault("0")
     @Column(nullable = false)
     private Double starRating;

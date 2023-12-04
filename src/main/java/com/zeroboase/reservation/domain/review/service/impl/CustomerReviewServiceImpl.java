@@ -8,6 +8,7 @@ import static com.zeroboase.reservation.exception.ErrorCode.REVIEW_NOT_FOUND;
 import com.zeroboase.reservation.domain.reservation.entity.Reservation;
 import com.zeroboase.reservation.domain.reservation.repository.ReservationRepository;
 import com.zeroboase.reservation.domain.review.dto.CreateReview;
+import com.zeroboase.reservation.domain.review.dto.UpdateReview;
 import com.zeroboase.reservation.domain.review.dto.model.CustomerReviewDto;
 import com.zeroboase.reservation.domain.review.entity.Review;
 import com.zeroboase.reservation.domain.review.mapper.ReviewMapper;
@@ -68,6 +69,23 @@ public class CustomerReviewServiceImpl implements CustomerReviewService {
             .orElseThrow(() -> new ReservationException(REVIEW_NOT_FOUND));
 
         return reviewMapper.mapToCustomerReview(review);
+    }
+
+
+    @Transactional
+    @Override
+    public UpdateReview.Response updateReview(Long id, UpdateReview.Request request) {
+        Review review = reviewRepository.findById(id)
+            .orElseThrow(() -> new ReservationException(REVIEW_NOT_FOUND));
+
+        Store store = review.getReservation().getInventory().getStore();
+        store.decreaseStarRating(review.getStarRating());
+        store.increaseStarRating(request.starRating());
+
+        review.setContent(request.content());
+        review.setStarRating(request.starRating());
+
+        return reviewMapper.mapToUpdateReviewResponse(review);
     }
 
     /**
