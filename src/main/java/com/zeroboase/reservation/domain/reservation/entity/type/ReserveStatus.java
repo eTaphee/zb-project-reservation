@@ -15,5 +15,9 @@ public enum ReserveStatus {
     /**
      * 거절
      */
-    REJECT
+    REJECT,
+    /**
+     * 취소
+     */
+    CANCEL
 }

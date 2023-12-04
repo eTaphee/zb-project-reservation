@@ -4,8 +4,8 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.zeroboase.reservation.domain.store.entity.Store;
 import com.zeroboase.reservation.domain.common.entity.BaseEntity;
+import com.zeroboase.reservation.domain.store.entity.Store;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -75,16 +76,22 @@ public class Inventory extends BaseEntity {
     /**
      * 남은 재고 수량
      */
+    @Setter
     @ColumnDefault("0")
     @Column(nullable = false)
     private Integer availableCount;
 
     @Builder
     public Inventory(Long storeId, LocalDate inventoryDate, LocalTime inventoryTime,
-        Integer limitCount) {
+        Integer limitCount, Integer availableCount) {
         this.storeId = storeId;
         this.inventoryDate = inventoryDate;
         this.inventoryTime = inventoryTime;
         this.limitCount = limitCount;
+        this.availableCount = availableCount;
+    }
+
+    public LocalDateTime getInventoryDateTime() {
+        return LocalDateTime.of(inventoryDate, inventoryTime);
     }
 }

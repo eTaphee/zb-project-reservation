@@ -12,12 +12,12 @@ import com.zeroboase.reservation.domain.inventory.dto.CreateInventory;
 import com.zeroboase.reservation.domain.inventory.dto.UpdateInventory;
 import com.zeroboase.reservation.domain.inventory.dto.model.PartnerInventoryDto;
 import com.zeroboase.reservation.domain.inventory.entity.Inventory;
-import com.zeroboase.reservation.domain.inventory.service.PartnerInventoryService;
-import com.zeroboase.reservation.domain.member.entity.Member;
-import com.zeroboase.reservation.exception.ReservationException;
 import com.zeroboase.reservation.domain.inventory.mapper.InventoryMapper;
 import com.zeroboase.reservation.domain.inventory.repository.InventoryRepository;
+import com.zeroboase.reservation.domain.inventory.service.PartnerInventoryService;
+import com.zeroboase.reservation.domain.member.entity.Member;
 import com.zeroboase.reservation.domain.store.repository.StoreRepository;
+import com.zeroboase.reservation.exception.ReservationException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +62,7 @@ public class PartnerInventoryServiceImpl implements PartnerInventoryService {
             .inventoryDate(request.inventoryDate())
             .inventoryTime(request.inventoryTime())
             .limitCount(request.limitCount())
+            .availableCount(request.limitCount())
             .build());
 
         return inventoryMapper.mapToCreateInventoryResponse(inventory);
