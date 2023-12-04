@@ -1,10 +1,13 @@
 package com.zeroboase.reservation.domain.store.repository;
 
-import com.zeroboase.reservation.domain.store.entity.Store;
+import static com.zeroboase.reservation.exception.ErrorCode.STORE_NOT_FOUND;
+
 import com.zeroboase.reservation.domain.store.dto.model.CustomerStoreDto;
 import com.zeroboase.reservation.domain.store.dto.model.CustomerStoreInfoDto;
 import com.zeroboase.reservation.domain.store.dto.model.PartnerStoreDto;
 import com.zeroboase.reservation.domain.store.dto.model.PartnerStoreInfoDto;
+import com.zeroboase.reservation.domain.store.entity.Store;
+import com.zeroboase.reservation.exception.ReservationException;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,4 +53,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
         @Param("sourceLongitude") Double longitude);
 
     Optional<CustomerStoreInfoDto> findCustomStoreInfoById(Long id);
+
+    default Store findByIdOrThrow(Long id) {
+        return findById(id).orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
+    }
 }

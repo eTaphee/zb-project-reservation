@@ -87,8 +87,7 @@ public class PartnerStoreServiceImpl implements PartnerStoreService {
     @Transactional
     @Override
     public UpdateStore.Response updateStore(Long id, UpdateStore.Request request) {
-        Store store = storeRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
+        Store store = storeRepository.findByIdOrThrow(id);
 
         storeMapper.updateStoreFromDto(request, store);
 

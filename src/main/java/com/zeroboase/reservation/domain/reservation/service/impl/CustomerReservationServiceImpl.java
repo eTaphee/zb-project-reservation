@@ -4,13 +4,11 @@ import static com.zeroboase.reservation.domain.reservation.entity.type.ReserveSt
 import static com.zeroboase.reservation.exception.ErrorCode.CANCEL_RESERVATION_TIME_EXCEED;
 import static com.zeroboase.reservation.exception.ErrorCode.CHECKIN_TIME_EARLY;
 import static com.zeroboase.reservation.exception.ErrorCode.CHECKIN_TIME_EXCEED;
-import static com.zeroboase.reservation.exception.ErrorCode.INVENTORY_NOT_FOUND;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_ALREADY_CANCELED;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_ALREADY_CHECKIN;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_ALREADY_REJECTED;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_CLOSED;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_INFO_NOT_MATCHED;
-import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_NOT_FOUND;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_WAIT_FOR_APPROVAL;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVE_TIME_EXCEED;
 
@@ -66,8 +64,7 @@ public class CustomerReservationServiceImpl implements CustomerReservationServic
     public Long reserve(Reserve.Request request) {
         // TODO lock 필요 lock invid
 
-        Inventory inventory = inventoryRepository.findById(request.inventoryId())
-            .orElseThrow(() -> new ReservationException(INVENTORY_NOT_FOUND));
+        Inventory inventory = inventoryRepository.findByIdOrThrow(request.inventoryId());
 
         Member member = authenticationFacade.getAuthenticatedMember();
 
@@ -92,7 +89,7 @@ public class CustomerReservationServiceImpl implements CustomerReservationServic
     @Transactional
     @Override
     public void cancelReservation(Long id) {
-        Reservation reservation = findReservationOrElseThrow(id);
+        Reservation reservation = reservationRepository.findByIdOrThrow(id);
 
         validateCancelReservation(reservation);
 
@@ -110,7 +107,8 @@ public class CustomerReservationServiceImpl implements CustomerReservationServic
     @Transactional(readOnly = true)
     @Override
     public CustomerReservationDto getReservation(Long id) {
-        return reservationMapper.mapToCustomerReservation(findReservationOrElseThrow(id));
+        return reservationMapper.mapToCustomerReservation(
+            reservationRepository.findByIdOrThrow(id));
     }
 
     /**
@@ -137,7 +135,7 @@ public class CustomerReservationServiceImpl implements CustomerReservationServic
     @Transactional
     @Override
     public void checkIn(CheckIn.Request request) {
-        Reservation reservation = findReservationOrElseThrow(request.reservationId());
+        Reservation reservation = reservationRepository.findByIdOrThrow(request.reservationId());
 
         validateCheckIn(reservation, request);
 
@@ -220,11 +218,5 @@ public class CustomerReservationServiceImpl implements CustomerReservationServic
             case CANCEL -> throw new ReservationException(RESERVATION_ALREADY_CANCELED);
             case REJECT -> throw new ReservationException(RESERVATION_ALREADY_REJECTED);
         }
-    }
-
-
-    private Reservation findReservationOrElseThrow(Long id) {
-        return reservationRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(RESERVATION_NOT_FOUND));
     }
 }

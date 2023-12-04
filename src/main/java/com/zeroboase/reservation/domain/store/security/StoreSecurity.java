@@ -1,7 +1,6 @@
 package com.zeroboase.reservation.domain.store.security;
 
 import static com.zeroboase.reservation.exception.ErrorCode.ACCESS_DENIED;
-import static com.zeroboase.reservation.exception.ErrorCode.STORE_NOT_FOUND;
 
 import com.zeroboase.reservation.configuration.security.AuthenticationFacade;
 import com.zeroboase.reservation.domain.member.entity.Member;
@@ -22,9 +21,7 @@ public class StoreSecurity {
     private final AuthenticationFacade authenticationFacade;
 
     public boolean checkAccessAsPartner(Long storeId) {
-        Store store = storeRepository.findById(storeId)
-            .orElseThrow(() -> new ReservationException(STORE_NOT_FOUND));
-
+        Store store = storeRepository.findByIdOrThrow(storeId);
         return checkAccess(store.getPartner());
     }
 

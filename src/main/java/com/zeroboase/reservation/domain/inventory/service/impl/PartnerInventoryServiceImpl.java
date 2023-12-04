@@ -93,8 +93,7 @@ public class PartnerInventoryServiceImpl implements PartnerInventoryService {
         //  TODO: 재고 수량 체크
         // lock
 
-        Inventory inventory = inventoryRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(INVENTORY_NOT_FOUND));
+        Inventory inventory = inventoryRepository.findByIdOrThrow(id);
 
         inventoryMapper.updateInventoryFromDto(request, inventory);
 

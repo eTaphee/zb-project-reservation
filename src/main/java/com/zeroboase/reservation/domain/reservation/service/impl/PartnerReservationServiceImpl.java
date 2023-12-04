@@ -8,7 +8,6 @@ import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_ALREADY_
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_ALREADY_CANCELED;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_ALREADY_REJECTED;
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_IS_NOT_WAIT;
-import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_NOT_FOUND;
 
 import com.zeroboase.reservation.domain.common.dto.PageQuery;
 import com.zeroboase.reservation.domain.common.dto.PageResponse;
@@ -40,7 +39,7 @@ public class PartnerReservationServiceImpl implements PartnerReservationService 
     @Transactional
     @Override
     public void approveReservation(Long id) {
-        Reservation reservation = findReservationOrElseThrow(id);
+        Reservation reservation = reservationRepository.findByIdOrThrow(id);
 
         validateReservationStatus(reservation);
 
@@ -57,7 +56,7 @@ public class PartnerReservationServiceImpl implements PartnerReservationService 
     @Transactional
     @Override
     public void rejectReservation(Long id) {
-        Reservation reservation = findReservationOrElseThrow(id);
+        Reservation reservation = reservationRepository.findByIdOrThrow(id);
 
         validateReservationStatus(reservation);
 
@@ -103,10 +102,5 @@ public class PartnerReservationServiceImpl implements PartnerReservationService 
         if (reservation.getStatus() != WAIT) {
             throw new ReservationException(RESERVATION_IS_NOT_WAIT);
         }
-    }
-
-    private Reservation findReservationOrElseThrow(Long id) {
-        return reservationRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(RESERVATION_NOT_FOUND));
     }
 }

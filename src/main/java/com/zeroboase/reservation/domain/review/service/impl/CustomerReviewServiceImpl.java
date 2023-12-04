@@ -1,9 +1,7 @@
 package com.zeroboase.reservation.domain.review.service.impl;
 
 import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_IS_NOT_CHECKIN;
-import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_NOT_FOUND;
 import static com.zeroboase.reservation.exception.ErrorCode.REVIEW_ALREADY_EXISTS;
-import static com.zeroboase.reservation.exception.ErrorCode.REVIEW_NOT_FOUND;
 
 import com.zeroboase.reservation.domain.reservation.entity.Reservation;
 import com.zeroboase.reservation.domain.reservation.repository.ReservationRepository;
@@ -40,8 +38,7 @@ public class CustomerReviewServiceImpl implements CustomerReviewService {
     @Transactional
     @Override
     public Long createReview(CreateReview.Request request) {
-        Reservation reservation = reservationRepository.findById(request.reservationId())
-            .orElseThrow(() -> new ReservationException(RESERVATION_NOT_FOUND));
+        Reservation reservation = reservationRepository.findByIdOrThrow(request.reservationId());
 
         validateCreateReviewReservation(reservation);
 
@@ -65,9 +62,7 @@ public class CustomerReviewServiceImpl implements CustomerReviewService {
     @Transactional(readOnly = true)
     @Override
     public CustomerReviewDto getReview(Long id) {
-        Review review = reviewRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(REVIEW_NOT_FOUND));
-
+        Review review = reviewRepository.findByIdOrThrow(id);
         return reviewMapper.mapToCustomerReview(review);
     }
 
@@ -75,8 +70,7 @@ public class CustomerReviewServiceImpl implements CustomerReviewService {
     @Transactional
     @Override
     public UpdateReview.Response updateReview(Long id, UpdateReview.Request request) {
-        Review review = reviewRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(REVIEW_NOT_FOUND));
+        Review review = reviewRepository.findByIdOrThrow(id);
 
         Store store = review.getReservation().getInventory().getStore();
         store.decreaseStarRating(review.getStarRating());
@@ -96,8 +90,7 @@ public class CustomerReviewServiceImpl implements CustomerReviewService {
     @Transactional
     @Override
     public void deleteReview(Long id) {
-        Review review = reviewRepository.findById(id)
-            .orElseThrow(() -> new ReservationException(REVIEW_NOT_FOUND));
+        Review review = reviewRepository.findByIdOrThrow(id);
 
         Store store = review.getReservation().getInventory().getStore();
         store.decreaseStarRating(review.getStarRating());

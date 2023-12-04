@@ -1,7 +1,6 @@
 package com.zeroboase.reservation.domain.reservation.security;
 
 import static com.zeroboase.reservation.exception.ErrorCode.ACCESS_DENIED;
-import static com.zeroboase.reservation.exception.ErrorCode.RESERVATION_NOT_FOUND;
 
 import com.zeroboase.reservation.configuration.security.AuthenticationFacade;
 import com.zeroboase.reservation.domain.member.entity.Member;
@@ -22,16 +21,12 @@ public class ReservationSecurity {
     private final AuthenticationFacade authenticationFacade;
 
     public boolean checkAccessAsCustomer(Long reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-            .orElseThrow(() -> new ReservationException(RESERVATION_NOT_FOUND));
-
+        Reservation reservation = reservationRepository.findByIdOrThrow(reservationId);
         return checkAccess(reservation.getReservedBy());
     }
 
     public boolean checkAccessAsPartner(Long reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-            .orElseThrow(() -> new ReservationException(RESERVATION_NOT_FOUND));
-
+        Reservation reservation = reservationRepository.findByIdOrThrow(reservationId);
         return checkAccess(reservation.getInventory().getStore().getPartner());
     }
 
